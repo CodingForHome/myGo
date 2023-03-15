@@ -1,6 +1,7 @@
 package tokenlimit
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -22,4 +23,11 @@ func TestTokenLimit(t *testing.T) {
 		return
 	}
 	assert.Equal(t, take, true)
+}
+
+func TestRedis(t *testing.T) {
+	myRedis := redis.RedisConf{Host: "localhost:6379", Pass: "123456"}.NewRedis()
+	val, err := myRedis.GetCtx(context.TODO(), "test")
+	assert.Equal(t, err, nil)
+	assert.Equal(t, val, "")
 }
